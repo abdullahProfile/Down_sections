@@ -1,0 +1,216 @@
+<style>
+  .section-marquee-bar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: {{ section.settings.announcemen-bar_background}};
+    overflow: hidden;
+  }
+
+  .announcement-bar__content {
+    font-size: {{ section.settings['font-size'] }}rem;
+    font-weight: {{ section.settings['font-weight'] }};
+    color: {{ section.settings['text-color'] }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+ .announcement-bar__content.is-animated {
+    animation: {{ section.settings.slid_animation_direction }} 12s linear infinite;
+  }
+
+  .announcement-bar__content:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes slide-left-to-right {
+
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes slide-right-to-left {
+
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .announcement-bar__arrow {
+    display: inline-flex;
+    align-items: center;
+    color: currentColor;
+    width: 16px;
+    height: 16px;
+  }
+
+  .announcement-bar__arrow.is-arrow_animated:hover {
+    animation: arrow_animation 2s linear infinite;
+  }
+
+  @keyframes arrow-animation {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+  }
+
+  .announcement-bar__content:hover .is-arrow_animated {
+    animation: arrow-animation 0.6s ease-in-out infinite;
+  }
+
+  .announcement-bar__arrow img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+</style>
+
+  <a href="{{ section.settings.link }}" class="announcement-bar__content {% if section.settings.enable_animation %} is-animated{% endif %}">
+
+    <span class="announcement-bar__text">
+      {{ section.settings.announcment-text }}
+    </span>
+
+    {% if section.settings.show_arrow %}
+
+      {% unless section.settings.enable_animation %}
+
+        <span class="announcement-bar__arrow {% if section.settings['is-arrow_animated'] %}is-arrow_animated{% endif %}">
+          <img src="{{ 'icon-arrow.svg' | asset_url }}" alt="Arrow" width="16" height="16" loading="lazy">
+        </span>
+
+      {% endunless %}
+
+    {% endif %}
+  </a>
+
+{% schema %}
+  {
+    "name": "Marquee Announcement",
+    "tag": "header",
+    "class": "section-marquee-bar",
+    "limit": 1,
+
+    "settings": [
+      {
+        "type": "select",
+        "id": "announcemen-bar_background",
+        "label": "background Color",
+
+        "options": [
+          {"value": "#fff", "label": "white"},
+          {"value": "#000", "label": "Black"},
+        ]
+      },
+      {
+        "type": "text",
+        "id": "announcment-text",
+        "label": "text",
+        "default": "welcome to our store"
+      },
+
+      {
+        "type": "range",
+        "label": "font size",
+        "id": "font-size",
+        "min": 0.6,
+        "max": 2,
+        "step": 0.1,
+        "default": 0.6,
+        "unit": "rem"
+      },
+
+      {
+        "type": "select",
+        "label": "font wieght",
+        "id": "font-weight",
+
+        "options": [
+          {"value": "700", "label": "bold"},
+          {"value": "600", "label": "medium"},
+          {"value": "400", "label": "regular"}
+        ]
+      },
+
+      {
+        "type": "select",
+        "id": "text-color",
+        "label": "Text Color",
+
+        "options": [
+          {"value": "#fff", "label": "white"},
+          {"value": "#000", "label": "Black"},
+        ]
+      },
+
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+
+      {
+        "type": "checkbox",
+        "id": "enable_animation",
+        "label": "Enable text animation",
+        "default": false
+      },
+
+      {
+        "type": "checkbox",
+        "id": "show_arrow",
+        "label": "Show arrow icon",
+        "default": true
+      },
+
+      {
+        "type": "select",
+        "label": "Slid Animation direction",
+        "id": "slid_animation_direction",
+
+        "options": [
+          {"value": "slide-left-to-right", "label": "left-to-right"},
+          {"value": "slide-right-to-left", "label": "right-to-left"},
+        ]
+      },
+
+      {
+        "type": "checkbox",
+        "label": "arrow animation",
+        "id": "is-arrow_animated",
+        "default":false,
+      },
+    ],
+
+    "blocks": [
+      {
+        "type": "announcement",
+        "name": "Announcement",
+        "settings": [
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Message",
+            "default": "Welcome to our store"
+          },
+        ]
+      }
+    ],
+
+    "presets": [
+      {
+        "name": "annoucment bar"
+      }
+    ]
+  }
+{% endschema %}

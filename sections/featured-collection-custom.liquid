@@ -1,0 +1,139 @@
+<style>
+
+  :root {
+    --padding-top: {{ section.settings.padding-top }}px;
+  }
+  section {
+    max-width:1920px;
+    width: 100%;
+    margin-inline: auto;
+    padding: 0 16px;
+    display:flex;
+    flex-direction:column;
+  }
+
+.product-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content:space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  padding-top: var(--padding-top)
+}
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 220px;
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 16px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    transition: box-shadow 0.2s;
+  }
+
+  .product-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  }
+
+  .product-card img {
+    width: 100%;
+    max-width: 180px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    object-fit: cover;
+  }
+
+  .product-title {
+    font-size: 1.1rem;
+    margin: 0 0 8px 0;
+    text-align: center;
+    color: #222;
+  }
+
+  .section-title {
+    color: #222;
+    font-size: 40px;
+    font-weight: bold;
+  }
+
+  .product-price {
+    color: #1a1a1a;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .product-card a {
+    display: inline-block;
+    margin-top: 8px;
+    background: #008060;
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .product-card a:hover {
+    background: #005a43;
+  }
+</style>
+  <section>
+    <h2 class="section-title">{{section.settings.title }}</h2>
+
+    <div class="product-container">
+    {% for collection_product in section.settings.featured_collection.products %}
+        <div class="product-card">
+          <img src="{{ collection_product.featured_image | image_url: width: 200 }}" alt="{{ collection_product.title }}">
+          <h3 class="product-title">{{ collection_product.title }}</h3>
+          <p class="product-price">{{ collection_product.price | money_with_currency }}</p>
+          <a href="{{ collection_product_url}}">View</a>
+        </div>
+
+      {% endfor %}
+    </div>
+    <div style="text-align:center; margin-top:20px;">
+      <a href="{{ section.settings.featured_collection.url }}" class="view-all-link">View All Products</a>
+    </div>
+  </section>
+
+
+
+{% schema %}
+{
+  "name": "featured-collectionCustom",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Select collection"
+    },
+
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default":"Featured Collection"
+    },
+
+    {
+      "type": "range",
+      "label": "Padding top",
+      "id": "padding-top",
+      "default":30,
+      "min": 0,
+      "max": 50,
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Product Section"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,107 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "collection_list_heBxQH": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_XBDEAh": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "new-arrivals"
+          }
+        },
+        "featured_collection_MngeQR": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "winter-collection"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_XBDEAh",
+        "featured_collection_MngeQR"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "Collections",
+        "heading_size": "h0",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_PjtEYP": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_FT4MAh": {
+          "type": "heading",
+          "settings": {
+            "heading": "Move Freely. Live Boldly",
+            "heading_size": "h1"
+          }
+        },
+        "text_4qTaXM": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<br/>Step into comfort and confidence. Our lightweight sneakers are designed for everyday hustle, blending style, performance, and all-day support.<br/></p>",
+            "text_style": "body"
+          }
+        },
+        "button_fMhgHn": {
+          "type": "button",
+          "settings": {
+            "button_label": "Sneakers",
+            "button_link": "shopify://products/sneakers",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_FT4MAh",
+        "text_4qTaXM",
+        "button_fMhgHn"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/sh-2.jpg",
+        "height": "adapt",
+        "desktop_image_width": "small",
+        "layout": "image_first",
+        "image_behavior": "zoom-in",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collection_list_heBxQH",
+    "image_with_text_PjtEYP"
+  ]
+}

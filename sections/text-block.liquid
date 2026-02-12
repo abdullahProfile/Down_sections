@@ -1,0 +1,310 @@
+<style>
+  .text-section {
+    max-width: 1440px;
+    margin-inline: auto;
+    display: flex;
+    align-items: {{ section.settings.align_items }};
+    gap: {{ section.settings.content_gap }}px;
+    flex-direction: column;
+    padding-block: {{ section.settings.padding_block }}px;
+    padding-inline: {{ section.settings.padding_inline }}px;
+    text-align: {{ section.settings.text_align }}
+  }
+</style>
+
+<section class="text-section">
+  {% for block in section.blocks %}
+    {% case block.type %}
+
+      {% when 'heading' %}
+        <h1 class="text-section__heading"
+        style="
+        font-size: {{ block.settings.font_size }}px;
+        font-weight: {{ block.settings.font_weight }};
+        color: {{ block.settings.font_color }};
+        margin: 0;
+        ">
+
+          {{ block.settings.title }}
+        </h1>
+
+      {% when 'text' %}
+        <p class="text"
+          style="font-size:{{ block.settings.text_font_size }}px;
+          font-weight: {{ block.settings.text_font_weight }};
+          color: {{ block.settings.text_font_color }}"
+        >
+
+        {{ block.settings.text }}
+        </p>
+
+      {% when 'button' %}
+        {% if block.settings.button_link != blank %}
+          <a
+            href="{{ block.settings.button_link }}"
+            class="text-section__button"
+
+            style="
+            background: {{ block.settings.background_color }};
+            color: {{ block.settings.btn_text_color }};
+            font-size: {{ block.settings.btn_text_size }}px;
+            text-decoration: none;
+            padding-inline:{{ block.settings.btn_padding_inline }}px;
+            padding-block:{{ block.settings.btn_padding_block }}px;
+            "
+          >
+            {{ block.settings.button_text }}
+          </a>
+        {% endif %}
+
+    {% endcase %}
+  {% endfor %}
+</section>
+
+
+{% schema %}
+{
+  "name": "Text block",
+
+  "settings": [
+
+    {
+      "type": "select",
+      "label": "align items",
+      "id": "align_items",
+      "default": "center",
+
+      "options": [
+        {"value": "start", "label": "start"},
+        {"value": "end", "label": "end"},
+        {"value": "center", "label": "center"},
+        {"value": "baseline", "label": "base line"}
+      ]
+    },
+
+    {
+      "type": "select",
+      "label": "text_align",
+      "id": "text_align",
+      "default": "center",
+
+      "options": [
+        {"value": "start", "label": "start"},
+        {"value": "end", "label": "end"},
+        {"value": "center", "label": "center"},
+      ]
+    },
+
+    {
+      "type": "range",
+      "label": "gap",
+      "id": "content_gap",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "default": 10,
+      "unit": "px"
+    },
+
+    {
+      "type": "range",
+      "label": "padding block",
+      "id": "padding_block",
+      "min": 40,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+
+    {
+      "type": "range",
+      "label": "padding inline",
+      "id": "padding_inline",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+
+  ],
+
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading Text",
+          "default": "Heading text"
+        },
+
+        {
+          "type": "range",
+          "label": "Font size",
+          "id": "font_size",
+          "min": 16,
+          "max": 40,
+          "step": 4,
+          "default": 16,
+          "unit": "px"
+        },
+
+        {
+          "type": "select",
+          "label": "Font weight",
+          "id": "font_weight",
+
+          "options": [
+            { "value": "700", "label": "Bold" },
+            { "value": "600", "label": "Medium" },
+            { "value": "500", "label": "Regular" }
+          ]
+        },
+
+        {
+          "type": "select",
+          "label": "Font color",
+          "id": "font_color",
+          "default": "#fff",
+
+          "options": [
+            { "value": "#fff", "label": "White" },
+            { "value": "#000", "label": "Black" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Text",
+          "id": "text",
+          "default": "i am the section text"
+        },
+
+        {
+          "type": "range",
+          "label": "Font size",
+          "id": "text_font_size",
+          "min": 10,
+          "max": 40,
+          "step": 2,
+          "default": 10,
+          "unit": "px"
+        },
+
+        {
+          "type": "select",
+          "label": "Font weight",
+          "id": "text_font_weight",
+
+          "options": [
+            { "value": "700", "label": "Bold" },
+            { "value": "600", "label": "Medium" },
+            { "value": "500", "label": "Regular" }
+          ]
+        },
+
+        {
+          "type": "select",
+          "label": "Font color",
+          "id": "text_font_color",
+          "default": "#000",
+
+          "options": [
+            { "value": "#fff", "label": "White" },
+            { "value": "#000", "label": "Black" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Click here"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        },
+        {
+          "type": "range",
+          "label": "Button text size",
+          "id": "btn_text_size",
+          "min": 14,
+          "max": 24,
+          "step": 2,
+          "default": 14,
+          "unit": "px"
+        },
+        {
+          "type": "select",
+          "label": "Background color",
+          "id": "background_color",
+          "default": "#000",
+          "options": [
+            { "value": "#000", "label": "Black" },
+            { "value": "#fff", "label": "White" },
+            { "value": "transparent", "label": "Transparent" }
+          ]
+        },
+        {
+          "type": "select",
+          "label": "Text color",
+          "id": "btn_text_color",
+          "default": "#fff",
+          "options": [
+            { "value": "#fff", "label": "White" },
+            { "value": "#000", "label": "Black" }
+          ]
+        },
+
+        {
+          "type": "range",
+          "id": "btn_padding_inline",
+          "label": "Padding inline",
+          "min": 10,
+          "max": 20,
+          "step": 2,
+          "default": 10,
+          "unit": "px"
+        },
+
+        {
+          "type": "range",
+          "id": "btn_padding_block",
+          "label": "Padding Block",
+          "min": 10,
+          "max": 20,
+          "step": 2,
+          "default": 10,
+          "unit": "px"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Text block"
+    }
+  ]
+}
+{% endschema %}
+

@@ -1,0 +1,644 @@
+<style>
+  .section-{{ section.id }}-padding {
+    --flex-direction: {{ section.settings.flex_direction }};
+    --flex-direction-mobile: {{ section.settings.flex_direction_mobile }};
+    --image-width: {{ section.settings.image_width }}px;
+    --image-border-radius: {{ section.settings.image_border_radius }}px;
+    --icon-text-size: {{section.settings.icon_text_size }}px;
+    --icons-placement: {{section.settings.header_icons_flex_direction }};
+    --primary-title-font-size: {{section.settings.primary_title_size }}px;
+    --star-color: {{ section.settings.star_color }};
+    --features-title-size: {{ section.settings.features_title_size }}px;
+    --features-description-size: {{ section.settings.features_description_size }}px;
+    --feature-padding-left: {{ section.settings.feature_padding_left }}px;
+    --feature-padding-right: {{ section.settings.feature_padding_right }}px;
+    --description-text-size: {{ section.settings.primary_description_size }}px;
+    --heading-weight: {{ section.settings.heading_wieght }};
+    --button-padding-top: {{ section.settings.button_padding_top }}px;
+    --button-padding-bottom: {{ section.settings.button_padding_bottom }}px;
+    --button-background: {{ section.settings.button_background }};
+    --button-border-radius: {{ section.settings.button_border_radius }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media (max-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px;
+      padding-inline: {{ section.settings.padding_right }}px {{ section.settings.padding_left }}px;
+    }
+  }
+
+</style>
+
+<div class="section-{{ section.id }}-padding image_with_text">
+  <picture class="image">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: section.settings.image_width
+        | image_tag:
+          alt: section.settings.image.alt,
+          loading: 'lazy',
+          sizes: '(min-width: 750px) 50vw, 100vw',
+          widths: '300, 600, 800, 1000, 1200'
+      }}
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </picture>
+
+  <div class="content">
+    <div class="content_header">
+      <div class="content_header_icons">
+        <div class="header_icons">
+          {% for i in (1..5) %}
+            {% if section.settings.rating != blank %}
+              <span class="icon">
+                 {% if i <= section.settings.rating %}★{% else %}☆{% endif %}
+              </span>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if section.settings.icon_text !=blank %}
+          <p class="icons_text">{{ section.settings.icon_text }}</p>
+        {% endif %}
+      </div>
+
+      {% if section.settings.title_text !=blank %}
+        <h1 class="primary_title">{{ section.settings.title_text }}</h1>
+      {% endif %}
+
+      {% if section.settings.primary_description !=blank %}
+        <p class="primary_description">{{ section.settings.primary_description }}</p>
+      {% endif %}
+    </div>
+
+    <div class="content_body_wrapper">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'feature' -%}
+            <div class="content_body" {{ block.shopify_attributes }}>
+              <div class="body_icon">
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon | image_url: width: 24 | image_tag: alt: block.settings.heading }}
+                {%- else -%}
+                  <img src="{{ 'check.png' | asset_url }}" alt="check">
+                {%- endif -%}
+              </div>
+              <div class="body_text">
+
+                {% if block.settings.heading !=blank %}
+                  <h2 class="feature_title" style="font-size: {{ section.settings.feautures_title_size }}px; font-weight: {{ section.settings.heading_wieght }}">{{ block.settings.heading }}</h2>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <p class="feature_description">{{ block.settings.description }}</p>
+                {% endif %}
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {% if section.settings.section_button_text != blank and section.settings.section_button_link != blank%}
+      <a class="image_with_text_link" href="{{ section.settings.section_button_link }}" target="{{ section.settings.button_target }}">{{ section.settings.section_button_text | escape }}</a>
+    {% endif %}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  h1,h2, p {
+    margin: 0;
+    color: inherit;
+  }
+
+ .image_with_text h1 {
+    font-weight: var(--heading-weight);
+  }
+
+  .image_with_text {
+    flex-direction: var(--flex-direction);
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .image {
+    max-width: 100%;
+    max-width: var(--image-width);
+    overflow: hidden;
+  }
+
+  .image img {
+    border-radius: var(--image-border-radius);
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    height: 100%;
+  }
+
+  .image_with_text_link {
+    background: var(--button-background);
+    padding-top: var(--button-padding-top);
+    padding-bottom: var(--button-padding-bottom);
+    border-radius: var(--button-border-radius);
+    border: none;
+    outline: none;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    max-width: 330px;
+  }
+
+  .content {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .content_header {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    gap: 5px;
+  }
+
+  .content_header_icons {
+    flex-direction: var(--icons-placement);
+    flex-wrap: wrap;
+    display: flex;
+    align-items: baseline;
+    align-self: baseline;
+    gap: 10px;
+  }
+
+  .header_icons{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .header_icons .icon{
+    color: var(--star-color, #FFD700);
+    font-size: 20px;
+  }
+
+  .icons_text {
+    font-size: var(--icon-text-size);
+  }
+
+  .primary_title {
+    font-size: var(--primary-title-font-size);
+  }
+
+  .primary_description {
+    font-size: var(--description-text-size);
+  }
+
+  .content_body_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .content_body {
+    padding-left: var(--feature-padding-left);
+    padding-right: var(--feature-padding-right);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .body_icon {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: green;
+    padding: 5px;
+  }
+
+  .body_text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-block: 16px;
+    border-bottom: 1px #E5E7EB solid;
+  }
+
+  .feature_description {
+    font-size: var(--features-description-size);
+  }
+
+  @media (max-width: 768px) {
+    .image_with_text {
+      flex-direction: var(--flex-direction-mobile);
+    }
+
+    .image {
+      max-width: 100%;
+    }
+
+    .image_with_text_link  {
+      max-width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "custom image with text",
+    "tag": "section",
+    "class": "section",
+    "disabled_on": {
+    "groups": ["header", "footer"]
+    },
+
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+      },
+      {
+        "type": "range",
+        "id": "image_width",
+        "label": "Image Width",
+        "min": 200,
+        "max": 1000,
+        "step": 50,
+        "unit": "px",
+        "default": 350
+      },
+      {
+        "type": "range",
+        "id": "image_border_radius",
+        "label": "Image Border Radius",
+        "min": 0,
+        "max": 80,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Section Settings"
+      },
+      {
+        "type": "select",
+        "id": "flex_direction",
+        "label": "Image Place",
+
+        "options": [
+          {
+            "value": "row-reverse",
+            "label": "Right"
+          },
+
+          {
+            "value": "row",
+            "label": "left"
+          },
+        ],
+        "default": "row-reverse"
+      },
+      {
+        "type": "select",
+        "id": "flex_direction_mobile",
+        "label": "Image Place Mobile",
+
+        "options": [
+          {
+            "value": "column",
+            "label": "First",
+          },
+
+          {
+            "value": "column-reverse",
+            "label": "Second"
+          },
+        ],
+        "default": "column"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding Top",
+        "min": 0,
+        "max": 200,
+        "step": 10,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding Bottom",
+        "min": 0,
+        "max": 200,
+        "step": 10,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding_left",
+        "label": "Padding Left",
+        "min": 0,
+        "max": 200,
+        "step": 10,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding_right",
+        "label": "Padding Right",
+        "min": 0,
+        "max": 200,
+        "step": 10,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "heading_wieght",
+        "label": "Headings Weight",
+
+        "options": [
+          {
+            "value": "400",
+            "label": "Regular"
+          },
+          {
+            "value": "600",
+            "label": "Medium"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          }
+        ],
+        "default": "600"
+      },
+
+      {
+        "type": "header",
+        "content": "Button"
+      },
+      {
+        "type": "text",
+        "id": "section_button_text",
+        "label": "Button label",
+        "default": "Button Label"
+      },
+      {
+        "type": "url",
+        "id": "section_button_link",
+        "label": "Button link",
+        "default": "/"
+      },
+      {
+        "type": "select",
+        "id": "button_target",
+        "label": "Open Tab",
+        "options": [
+          {"value": "_blank", "label": "New Tab"},
+          {"value": "_self", "label": "Same Tab"}
+        ],
+        "default": "_self"
+      },
+      {
+        "type": "range",
+        "id": "button_padding_top",
+        "label": "Padding Top",
+        "min": 0,
+        "max": 32,
+        "step": 4,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "button_padding_bottom",
+        "label": "Padding Bottom",
+        "min": 0,
+        "max": 32,
+        "step": 4,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "button_border_radius",
+        "label": "Border Radius",
+        "min": 0,
+        "max": 32,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "color",
+        "id": "button_background",
+        "label": "Background",
+        "default": "#000"
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_rating",
+        "label": "Show rating",
+        "default": true
+      },
+      {
+        "type": "inline_richtext",
+        "id": "icon_text",
+        "label": "Text with Icons",
+        "default":"We have impacted over 12000+ Wellness Devotees globally"
+      },
+      {
+        "type": "inline_richtext",
+        "id": "title_text",
+        "label": "Title",
+        "default": "Why Balanced Gut Blend Tincture Works?"
+      },
+      {
+        "type": "inline_richtext",
+        "id": "primary_description",
+        "label": "Primary Description",
+        "default": "Our Balanced Gut Blend combines medicinal mushrooms and soothing herbs to support digestive balance, gut integrity, and overall wellness:"
+      },
+      {
+        "type": "range",
+        "id": "primary_title_size",
+        "label": "Title Text Size (px)",
+        "min": 16,
+        "max": 80,
+        "step": 4,
+        "unit": "px",
+        "default": 16,
+      },
+      {
+        "type": "range",
+        "id": "primary_description_size",
+        "label": "Description Text Size (px)",
+        "min": 16,
+        "max": 40,
+        "step": 4,
+        "unit": "px",
+        "default": 16,
+      },
+      {
+        "type": "range",
+        "id": "icon_text_size",
+        "label": "Icons Text Size (px)",
+        "min": 0,
+        "max": 48,
+        "step": 4,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "rating",
+        "label": "Rating",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "default": 5,
+        "unit": "★"
+      },
+      {
+        "type": "color",
+        "id": "star_color",
+        "label": "Star rating color",
+        "default": "#FFD700"
+      },
+      {
+        "type": "select",
+        "id": "header_icons_flex_direction",
+        "label": "Icons Placement",
+
+        "options": [
+          {
+            "value": "row",
+            "label": "Left"
+          },
+          {
+            "value": "row-reverse",
+            "label": "Right"
+          },
+          {
+            "value": "column",
+            "label": "Top"
+          },
+          {
+            "value": "column-reverse",
+            "label": "Bottom"
+          },
+        ],
+        "default": "row"
+      },
+      {
+        "type": "header",
+        "content": "Features Settings"
+      },
+      {
+        "type": "range",
+        "id": "feautures_title_size",
+        "label": "Features Title Text Size",
+        "min": 0,
+        "max": 40,
+        "step": 4,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "features_description_size",
+        "label": "Features Description Text Size",
+        "min": 0,
+        "max": 40,
+        "step": 4,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "feature_padding_left",
+        "label": "Features Padding Left",
+        "min": 0,
+        "max": 40,
+        "step": 4,
+        "unit": "px",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "feature_padding_right",
+        "label": "Features Padding Right",
+        "min": 0,
+        "max": 40,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      },
+    ],
+
+    "blocks": [
+      {
+        "type": "feature",
+        "name": "Feature Item",
+        "limit": 6,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Custom Icon (optional)",
+            "info": "Upload a custom icon. Leave empty to use default check icon"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Turkey Tail → Microbiome Support"
+          },
+          {
+            "type": "text",
+            "id": "description",
+            "label": "Description",
+            "default": "Helps nourish beneficial gut bacteria and supports a healthy digestive ecosystem."
+          }
+        ]
+      }
+    ],
+
+    "presets": [
+      {
+        "name": "image with text",
+        "blocks": [
+          {
+            "type": "feature"
+          },
+          {
+            "type": "feature"
+          },
+          {
+            "type": "feature"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

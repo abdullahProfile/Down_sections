@@ -1,0 +1,75 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "title": "Collections",
+        "sort": "alphabetical",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "columns_mobile": "2"
+      }
+    },
+    "image_with_text_edeFDK": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_eLbPVf": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ metaobjects.designer[\"modern-minimalist\"].name.value }}",
+            "heading_size": "h1"
+          }
+        },
+        "text_tBMbWR": {
+          "type": "text",
+          "settings": {
+            "text": "<p>{{ metaobjects.designer[\"modern-minimalist\"].description | metafield_tag }}</p>",
+            "text_style": "body"
+          }
+        },
+        "button_ziNxii": {
+          "type": "button",
+          "settings": {
+            "button_label": "check",
+            "button_link": "{{ metaobjects.designer[\"modern-minimalist\"].url.value }}",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_eLbPVf",
+        "text_tBMbWR",
+        "button_ziNxii"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "{{ metaobjects.designer[\"modern-minimalist\"].image.value }}",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_edeFDK"
+  ]
+}

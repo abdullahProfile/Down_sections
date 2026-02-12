@@ -1,0 +1,176 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "disabled": true,
+      "settings": {
+        "layout": "collage",
+        "show_image": true,
+        "image_height": "medium",
+        "show_date": true,
+        "show_author": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_xM8N4K": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_QE8NiP": {
+          "type": "heading",
+          "settings": {
+            "heading": "Elevate Your Look: Why the Right Glasses Matter More Than You Think",
+            "heading_size": "h2"
+          }
+        },
+        "text_PKmTQq": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Glasses are no longer just about vision—they’re a fashion statement, a confidence booster, and a daily essential. In this blog, discover how the perfect pair of glasses can transform your style, protect your eyes</p>",
+            "text_style": "body"
+          }
+        },
+        "button_JGWr3x": {
+          "type": "button",
+          "settings": {
+            "button_label": "shop Now",
+            "button_link": "shopify://collections/all",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_QE8NiP",
+        "text_PKmTQq",
+        "button_JGWr3x"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/generate-hd-image-of-glasses-for-the-blog.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_KGAcT4": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_xDUXCb": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Timeless White Tee",
+            "heading_size": "h2"
+          }
+        },
+        "text_7f6UJq": {
+          "type": "text",
+          "settings": {
+            "text": "<p>A must-have in every wardrobe — our T-shirts offer the perfect blend of comfort, style, and versatility for any occasion.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_d9mU7B": {
+          "type": "button",
+          "settings": {
+            "button_label": "shop Now",
+            "button_link": "shopify://products/t-shirt",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_xDUXCb",
+        "text_7f6UJq",
+        "button_d9mU7B"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/generate-hd-image-of-t-shirt-for-the-blog.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_4aVDMH": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_h6hiHh": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Everyday Sweater",
+            "heading_size": "h2"
+          }
+        },
+        "text_HpLimp": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Stay warm without sacrificing style. Our everyday sweater is soft, snug, and perfect for layering—making it your go-to for chilly days and relaxed looks.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_GV8A8Q": {
+          "type": "button",
+          "settings": {
+            "button_label": "shop Now",
+            "button_link": "shopify://products/sweaters",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_h6hiHh",
+        "text_HpLimp",
+        "button_GV8A8Q"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/genarate-img-of-sweater-for-the-blog-page.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_xM8N4K",
+    "image_with_text_KGAcT4",
+    "image_with_text_4aVDMH"
+  ]
+}
