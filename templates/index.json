@@ -432,6 +432,11 @@
       "type": "custom-image-with-text",
       "settigs":{}
     },
+
+    "featured-videos": {
+      "type": "featured-videos",
+      "settings": {}
+    }
   },
   "order": [
     "slideshow_GaEEdq",
@@ -440,6 +445,7 @@
     "collapsible_content_RMNe49",
     "tp_testimonials_2_4pU4bf",
     "panel",
-    "custom-image-with-text"
+    "custom-image-with-text",
+    "featured-videos"
   ]
 }

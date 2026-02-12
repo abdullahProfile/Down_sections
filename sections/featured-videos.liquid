@@ -1,0 +1,117 @@
+<div class="featured_videos">
+  <h1>Feeling The Nicole’s Apothecary Difference?</h1>
+
+  <div class="swiper video-swiper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide" {{ block.shopify_attributes }}>
+
+          {% assign url = block.settings.video_url %}
+
+          {% if url contains 'youtube.com' or url contains 'youtu.be' %}
+            <iframe
+              src="https://www.youtube.com/embed/{{ url | split: 'v=' | last }}?autoplay={{ block.settings.autoplay | times: 1 }}"
+              allow="autoplay; encrypted-media"
+              allowfullscreen>
+            </iframe>
+
+          {% elsif url contains 'vimeo.com' %}
+            <iframe
+              src="https://player.vimeo.com/video/{{ url | split: '/' | last }}?autoplay={{ block.settings.autoplay | times: 1 }}"
+              allow="autoplay; fullscreen"
+              allowfullscreen>
+            </iframe>
+
+          {% elsif url contains '.mp4' %}
+            <video
+              {% if block.settings.autoplay %} autoplay muted playsinline {% endif %}
+              controls>
+              <source src="{{ url }}" type="video/mp4">
+            </video>
+
+          {% else %}
+            <iframe src="{{ url }}" allowfullscreen></iframe>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+{{ 'https://cdn.shopify.com/s/files/1/0658/2586/5811/files/swiper-bundle.min.css?v=1770922793' | stylesheet_tag }}
+{{ 'https://cdn.shopify.com/s/files/1/0658/2586/5811/files/swiper-bundle.min.js?v=1770922901' | script_tag }}
+
+{% stylesheet %}
+  .video-swiper iframe,
+  .video-swiper video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: block;
+  }
+
+  iframe {
+    height: 100%;
+  }
+  .swiper-slide  {
+    max-width: 300px;
+    height: 500px !important;
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "Featured Videos",
+    "class": "Featured-videos",
+    "tag": "section",
+
+    "settings": [],
+    "blocks": [
+      {
+        "type": "video_slide",
+        "name": "Video Slide",
+
+        "settings": [
+          {
+            "type": "url",
+            "id": "video_url",
+            "label": "Video URL (YouTube, Vimeo, MP4, or iframe source)",
+          },
+          {
+            "type": "checkbox",
+            "id": "autoplay",
+            "label": "Autoplay",
+            "default": true
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured Videos"
+      }
+    ]
+  }
+{% endschema %}
+
+<script>
+  function initVideoSwiper() {
+    if (document.querySelector('.video-swiper.swiper-initialized')) return;
+
+    new Swiper('.video-swiper', {
+      slidesPerView: 4,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initVideoSwiper);
+  document.addEventListener('shopify:section:load', initVideoSwiper);
+</script>
+
+
