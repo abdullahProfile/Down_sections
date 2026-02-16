@@ -1,38 +1,43 @@
-<div class="featured_videos">
-  <h1>Feeling The Nicole’s Apothecary Difference?</h1>
+<style>
+  #shopify-section-{{ section.id }} {
+    --v-width: {{ section.settings.v_width }}px;
+    --v-height: {{ section.settings.v_height }}px;
+    --v-height-mbl: {{ section.settings.v_height_mbl }}px;
+    --v-radius: {{ section.settings.v_border_radius }}
+    {% if section.settings.v_border_radius > 0 %}%{% else %}px{% endif %};
+    --title-size: {{ section.settings.section_title_size }}px;
+    --title-size-mbl: {{ section.settings.section_title_size_mbl }}px;
+    --bullet-color: #e0e0e0;
+    --bullet-active: #8D482FFF;
+    --full-width: 100%;
+    --display-none: none;
+  }
+</style>
+
+<div id="video-section-{{ section.id }}" class="featured_videos" data-section-id="{{ section.id }}">
+  {% if section.settings.section_title != blank %}
+    <h1 class="section_title">{{ section.settings.section_title }}</h1>
+  {% endif %}
 
   <div class="swiper video-swiper">
     <div class="swiper-wrapper">
       {% for block in section.blocks %}
         <div class="swiper-slide" {{ block.shopify_attributes }}>
-
-          {% assign url = block.settings.video_url %}
-
-          {% if url contains 'youtube.com' or url contains 'youtu.be' %}
-            <iframe
-              src="https://www.youtube.com/embed/{{ url | split: 'v=' | last }}?autoplay={{ block.settings.autoplay | times: 1 }}"
-              allow="autoplay; encrypted-media"
-              allowfullscreen>
-            </iframe>
-
-          {% elsif url contains 'vimeo.com' %}
-            <iframe
-              src="https://player.vimeo.com/video/{{ url | split: '/' | last }}?autoplay={{ block.settings.autoplay | times: 1 }}"
-              allow="autoplay; fullscreen"
-              allowfullscreen>
-            </iframe>
-
-          {% elsif url contains '.mp4' %}
-            <video
-              {% if block.settings.autoplay %} autoplay muted playsinline {% endif %}
-              controls>
-              <source src="{{ url }}" type="video/mp4">
-            </video>
-
-          {% else %}
-            <iframe src="{{ url }}" allowfullscreen></iframe>
-          {% endif %}
-
+          <div class="video-wrapper">
+             {%- if block.settings.video_file != blank -%}
+               {{ block.settings.video_file | video_tag:
+                autoplay: block.settings.autoplay,
+                loop: true,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                image_size: '600x',
+                alt: section.settings.title
+              }}
+             {%- else -%}
+               {{ 'product-1' | placeholder_svg_tag: 'videos_placeholder' }}
+             {%- endif -%}
+          </div>
         </div>
       {% endfor %}
     </div>
@@ -45,19 +50,77 @@
 {{ 'https://cdn.shopify.com/s/files/1/0658/2586/5811/files/swiper-bundle.min.js?v=1770922901' | script_tag }}
 
 {% stylesheet %}
-  .video-swiper iframe,
-  .video-swiper video {
+  .featured_videos {
+    margin-block: 40px;
+    padding: 0 20px;
+    overflow: hidden;
+  }
+
+ .featured_videos .section_title {
+    font-size: var(--title-size);
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .featured_videos .swiper-slide {
+    width: var(--full-width);
+    max-width: var(--v-width);
+    height: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .featured_videos .video-wrapper {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: var(--v-height);
+    border-radius: var(--v-radius);
+    overflow: hidden;
+    background: #000;
+  }
+
+  .featured_videos video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
   }
 
-  iframe {
-    height: 100%;
+  .featured_videos .swiper-pagination-bullet {
+    width: 80px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: var(--bullet-color);
+    opacity: 1;
+    transition: background 0.3s, transform 0.2s;
   }
-  .swiper-slide  {
-    max-width: 300px;
-    height: 500px !important;
+
+  .featured_videos .swiper-pagination {
+    display: flex;
+    justify-content: center;
+  }
+
+  .featured_videos .swiper-pagination-lock {
+    display: var(--display-none);
+  }
+
+  .featured_videos .swiper-wrapper {
+    padding-bottom: 50px;
+  }
+
+  .featured_videos .swiper-pagination-bullet-active {
+    background-color: var(--bullet-active);
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    .featured_videos .section_title {
+      font-size: var(--title-size-mbl);
+    }
+
+    .featured_videos .video-wrapper {
+      height: var(--v-height-mbl);
+    }
   }
 {% endstylesheet %}
 
@@ -67,17 +130,92 @@
     "class": "Featured-videos",
     "tag": "section",
 
-    "settings": [],
+    "settings": [
+      {
+        "type": "inline_richtext",
+        "id": "section_title",
+        "label": "Title",
+        "default": "Feeling The Nicole’s Apothecary Difference?"
+      },
+
+      {
+        "type": "range",
+        "id": "section_title_size",
+        "label": "Title Text Size",
+        "min": 10,
+        "max": 120,
+        "step": 2,
+        "unit": "px",
+        "default": 40,
+      },
+
+      {
+        "type": "range",
+        "id": "section_title_size_mbl",
+        "label": "Title Text Size (mobile)",
+        "min": 10,
+        "max": 120,
+        "step": 2,
+        "unit": "px",
+        "default": 24,
+      },
+
+      {
+        "type": "header",
+        "content": "video Settings"
+      },
+      {
+        "type": "range",
+        "id": "v_width",
+        "label": "Width",
+        "min": 195,
+        "max": 1195,
+        "step": 10,
+        "unit": "px",
+        "default": 385
+      },
+
+      {
+        "type": "range",
+        "id": "v_border_radius",
+        "label": "Border Radius",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "%",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "v_height",
+        "label": "Video Height",
+        "min": 100,
+        "max": 1000,
+        "step": 10,
+        "unit": "px",
+        "default": 400
+      },
+      {
+        "type": "range",
+        "id": "v_height_mbl",
+        "label": "Video Height Mobile",
+        "min": 100,
+        "max": 1000,
+        "step": 10,
+        "unit": "px",
+        "default": 200
+      },
+    ],
     "blocks": [
       {
-        "type": "video_slide",
-        "name": "Video Slide",
+        "type": "video",
+        "name": "Video",
 
         "settings": [
           {
-            "type": "url",
-            "id": "video_url",
-            "label": "Video URL (YouTube, Vimeo, MP4, or iframe source)",
+            "type": "video",
+            "id": "video_file",
+            "label": "Video",
           },
           {
             "type": "checkbox",
@@ -97,21 +235,31 @@
 {% endschema %}
 
 <script>
-  function initVideoSwiper() {
-    if (document.querySelector('.video-swiper.swiper-initialized')) return;
+  function initVideoSwiper(container) {
+    const sections = container ? [container] : document.querySelectorAll('.featured_videos');
 
-    new Swiper('.video-swiper', {
-      slidesPerView: 4,
-      spaceBetween: 20,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
+    sections.forEach(section => {
+      const swiperEl = section.querySelector('.video-swiper');
+      if (!swiperEl || swiperEl.classList.contains('swiper-initialized')) return;
+
+      new Swiper(swiperEl, {
+        slidesPerView: 'auto',
+        spaceBetween: 20,
+        centeredSlides: false,
+        grabCursor: true,
+        watchOverflow: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        }
+      });
     });
   }
 
-  document.addEventListener('DOMContentLoaded', initVideoSwiper);
-  document.addEventListener('shopify:section:load', initVideoSwiper);
-</script>
+  document.addEventListener('DOMContentLoaded', () => initVideoSwiper());
 
+  document.addEventListener('shopify:section:load', (e) => {
+     initVideoSwiper(e.target);
+  });
+</script>
 
