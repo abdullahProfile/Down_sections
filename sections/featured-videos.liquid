@@ -3,10 +3,12 @@
     --v-width: {{ section.settings.v_width }}px;
     --v-height: {{ section.settings.v_height }}px;
     --v-height-mbl: {{ section.settings.v_height_mbl }}px;
-    --v-radius: {{ section.settings.v_border_radius }}
-    {% if section.settings.v_border_radius > 0 %}%{% else %}px{% endif %};
+    --v-radius: {{ section.settings.v_border_radius }}px;
     --title-size: {{ section.settings.section_title_size }}px;
     --title-size-mbl: {{ section.settings.section_title_size_mbl }}px;
+    --title-margin-bottom: {{ section.settings.title_mb }}px;
+    --button-background: {{section.settings.button_background }};
+    --icon-width: {{section.settings.icon_width }}px;
     --bullet-color: #e0e0e0;
     --bullet-active: #8D482FFF;
     --full-width: 100%;
@@ -34,6 +36,16 @@
                 image_size: '600x',
                 alt: section.settings.title
               }}
+
+              {%- if block.settings.autoplay == false -%}
+                <button type="button" class="video-control-button" onclick="toggleVideo(this)">
+
+                  <span class="play-icon">{{ 'play-icon.svg' | asset_url | img_tag }}</span>
+
+                  <span class="pause-icon">{{ 'pause-icon.svg' | asset_url | img_tag }}</span>
+                </button>
+              {%- endif -%}
+
              {%- else -%}
                {{ 'product-1' | placeholder_svg_tag: 'videos_placeholder' }}
              {%- endif -%}
@@ -47,7 +59,6 @@
 </div>
 
 {{ 'https://cdn.shopify.com/s/files/1/0658/2586/5811/files/swiper-bundle.min.css?v=1770922793' | stylesheet_tag }}
-{{ 'https://cdn.shopify.com/s/files/1/0658/2586/5811/files/swiper-bundle.min.js?v=1770922901' | script_tag }}
 
 {% stylesheet %}
   .featured_videos {
@@ -58,7 +69,7 @@
 
  .featured_videos .section_title {
     font-size: var(--title-size);
-    margin-bottom: 40px;
+    margin-bottom: var(--title-margin-bottom);
     text-align: center;
     font-weight: bold;
   }
@@ -77,6 +88,7 @@
     border-radius: var(--v-radius);
     overflow: hidden;
     background: #000;
+    position: relative;
   }
 
   .featured_videos video {
@@ -111,6 +123,50 @@
   .featured_videos .swiper-pagination-bullet-active {
     background-color: var(--bullet-active);
     transform: scale(1.1);
+  }
+
+  .video-control-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: var(--button-background);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+    font-size: 0;
+  }
+
+  .video-control-button span {
+    width: var(--icon-width);
+    height: auto;
+  }
+
+  .video-control-button .pause-icon {
+    display: none;
+  }
+
+  .video-wrapper.is-playing .play-icon {
+    display: none;
+  }
+
+  .video-wrapper.is-playing .pause-icon {
+    display: block;
+  }
+
+  .video-wrapper.is-playing .video-control-button {
+    opacity: 0;
+  }
+
+  .video-wrapper:hover .video-control-button {
+    opacity: 1;
   }
 
   @media (max-width: 768px) {
@@ -161,6 +217,16 @@
       },
 
       {
+        "type": "range",
+        "id": "title_mb",
+        "label": "Title Space Below",
+        "min": 0,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "default": 40
+      },
+      {
         "type": "header",
         "content": "video Settings"
       },
@@ -180,10 +246,10 @@
         "id": "v_border_radius",
         "label": "Border Radius",
         "min": 0,
-        "max": 100,
+        "max": 200,
         "step": 2,
-        "unit": "%",
-        "default": 0
+        "unit": "px",
+        "default": 10
       },
       {
         "type": "range",
@@ -204,6 +270,26 @@
         "step": 10,
         "unit": "px",
         "default": 200
+      },
+      {
+        "type": "header",
+        "content": "Button"
+      },
+      {
+        "type": "color",
+        "id": "button_background",
+        "label": "Button Background",
+        "default": "#fff"
+      },
+      {
+        "type": "range",
+        "id": "icon_width",
+        "label": "Icon Width",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "px",
+        "default": 25,
       },
     ],
     "blocks": [
@@ -234,6 +320,8 @@
   }
 {% endschema %}
 
+{{ 'https://cdn.shopify.com/s/files/1/0658/2586/5811/files/swiper-bundle.min.js?v=1770922901' | script_tag }}
+
 <script>
   function initVideoSwiper(container) {
     const sections = container ? [container] : document.querySelectorAll('.featured_videos');
@@ -247,6 +335,7 @@
         spaceBetween: 20,
         centeredSlides: false,
         grabCursor: true,
+        loop: true,
         watchOverflow: true,
         pagination: {
           el: '.swiper-pagination',
@@ -261,5 +350,18 @@
   document.addEventListener('shopify:section:load', (e) => {
      initVideoSwiper(e.target);
   });
+
+  function toggleVideo(button) {
+    const wrapper = button.closest('.video-wrapper');
+    const video = wrapper.querySelector('video');
+
+    if (video.paused) {
+      video.play();
+      wrapper.classList.add('is-playing');
+    } else {
+      video.pause();
+      wrapper.classList.remove('is-playing');
+    }
+  }
 </script>
 
